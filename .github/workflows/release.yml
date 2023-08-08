@@ -140,5 +140,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.IMAGE_NAME }}:static,${{ env.IMAGE_NAME }}:static-${{ env.VERSION }
+          tags: ${{ env.IMAGE_NAME }}:static,${{ env.IMAGE_NAME }}:static-${{ env.VERSION }}
           target: static
