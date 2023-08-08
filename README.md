@@ -2,6 +2,8 @@
 
 ![SurrealDB](https://img.shields.io/badge/build_with-SurrealDB-%23ff00a0)
 ![License](https://img.shields.io/badge/License-AGPL%20v3.0-blue)
+[![Continuous integration](https://github.com/Randoooom/eventplanner/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/Randoooom/eventplanner/actions/workflows/ci.yml)
+[![Release](https://github.com/Randoooom/eventplanner/actions/workflows/release.yml/badge.svg)](https://github.com/Randoooom/eventplanner/actions/workflows/release.yml)
 
 ## Overview
 
@@ -77,6 +79,9 @@ server {
   }
 }
 ```
+
+## Demo
+An demo application deployed using `ghcr.io/randoooom/eventplanner:static` is deployed [here](https://event.randoms.rocks).
 
 ## Roadmap
 
