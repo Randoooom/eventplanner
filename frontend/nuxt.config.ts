@@ -35,10 +35,19 @@ export default defineNuxtConfig({
     },
   },
   i18n: {
-    locales: [{ code: "de", iso: "de-DE", file: "de.json" }],
+    locales: [
+      { code: "de", iso: "de-DE", file: "de.json" },
+      { code: "en", iso: "en-US", file: "en.json" },
+    ],
     lazy: true,
     langDir: "./locales",
-    defaultLocale: "de",
+    defaultLocale: "en",
+    detectBrowserLanguage: {
+      cookieKey: "lang",
+      useCookie: true,
+      redirectOn: "root",
+      alwaysRedirect: true,
+    },
   },
   css: [
     "vuetify/styles",

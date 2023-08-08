@@ -23,7 +23,7 @@
     v-model="dialog"
   >
     <v-card-title>
-      {{ $t("layout.login.title") }}
+      {{ $t("layout.navigation.authentication.form.title") }}
     </v-card-title>
 
     <v-card-text class="mt-3">
@@ -54,7 +54,7 @@
         :disabled="disabled($t, username, password)"
         @click="login"
       >
-        {{ $t("layout.login.submit") }}
+        {{ $t("layout.navigation.authentication.form.submit") }}
       </v-btn>
 
       <v-spacer />
@@ -66,7 +66,7 @@
         variant="text"
         color="grey"
       >
-        {{ $t("layout.login.signup") }}
+        {{ $t("layout.navigation.authentication.form.signup") }}
       </v-btn>
     </v-card-actions>
   </FormFloatingDialog>
@@ -103,7 +103,9 @@ const localePath = useLocalePath();
 const emitter = notificationEmitter();
 
 const tooltip = computed(() =>
-  $surrealdb.loggedIn.value ? "layout.nav.logout" : "layout.nav.login"
+  $surrealdb.loggedIn.value
+    ? "layout.navigation.authentication.tooltip.logout"
+    : "layout.navigation.authentication.tooltip.login"
 );
 const icon = computed(() =>
   $surrealdb.loggedIn.value ? "mdi-logout" : "mdi-login"
@@ -126,9 +128,10 @@ async function login() {
 
     emitter.attachNotification({
       color: "success",
-      content: "layout.login.success.description",
+      title: "layout.navigation.authentication.form.response.success.title",
+      content:
+        "layout.navigation.authentication.form.response.success.description",
       icon: "mdi-check",
-      title: "layout.login.success.title",
     });
 
     dialog.value = false;
@@ -138,9 +141,10 @@ async function login() {
   } catch {
     emitter.attachNotification({
       color: "error",
-      content: "layout.login.error.description",
+      title: "layout.navigation.authentication.form.response.error.title",
+      content:
+        "layout.navigation.authentication.form.response.error.description",
       icon: "mdi-alert",
-      title: "layout.login.error.title",
     });
   }
 }
@@ -152,9 +156,9 @@ async function onClick() {
 
       emitter.attachNotification({
         color: "success",
-        content: "layout.logout.success.description",
+        title: "layout.navigation.logout.response.success.title",
+        content: "layout.navigation.logout.response.success.description",
         icon: "mdi-check",
-        title: "layout.logout.success.title",
       });
     } catch {}
   }

@@ -53,7 +53,7 @@
 
                 <v-card-title>
                   {{
-                    $t("event.overview.votes", {
+                    $t("page.dashboard.event.votes", {
                       date: date.toLocaleDateString(),
                     })
                   }}
@@ -64,7 +64,7 @@
                     <thead>
                       <tr>
                         <th>
-                          {{ $t("visitor.visitor.name") }}
+                          {{ $t("visitor.list.name") }}
                         </th>
                       </tr>
                     </thead>
@@ -93,8 +93,8 @@
       <v-table v-else>
         <thead>
           <tr>
-            <th>{{ $t("vote.date") }}</th>
-            <th>{{ $t("vote.votes") }}</th>
+            <th>{{ $t("page.vote.overview.date") }}</th>
+            <th>{{ $t("page.vote.overview.votes") }}</th>
           </tr>
         </thead>
         <tbody>
@@ -157,7 +157,7 @@ const text = (date: Date) =>
   computed(() => {
     const voting = votesFor(date).value!;
 
-    return t("event.votes", voting.by.length);
+    return t("page.dashboard.event.tooltip", voting.by.length);
   });
 
 async function fetch() {

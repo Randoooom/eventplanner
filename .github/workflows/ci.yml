@@ -9,9 +9,6 @@ on:
       - "**.rs"
       - "**.suql"
   pull_request:
-    paths:
-      - "**.rs"
-      - "**.suql"
   merge_group:
 
 jobs:

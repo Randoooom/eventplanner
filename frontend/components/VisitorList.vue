@@ -22,17 +22,17 @@
     </template>
 
     <v-card-title>
-      {{ $t("visitor.list") }}
+      {{ $t("visitor.list.title") }}
     </v-card-title>
 
     <v-card-text class="overflow-visible">
       <v-table id="visitors">
         <thead>
           <tr>
-            <th>{{ $t("visitor.visitor.name") }}</th>
-            <th>{{ $t("visitor.visitor.voted") }}</th>
+            <th>{{ $t("visitor.list.name") }}</th>
+            <th>{{ $t("visitor.list.voted") }}</th>
             <th class="d-flex justify-end align-center">
-              {{ $t("visitor.visitor.actions") }}
+              {{ $t("visitor.list.actions") }}
             </th>
           </tr>
         </thead>
@@ -75,7 +75,7 @@
                     style="width: 100%"
                     @click="activate"
                   >
-                    {{ $t("visitor.add") }}
+                    {{ $t("visitor.list.add") }}
                   </v-btn>
                 </template>
               </VisitorEditor>
@@ -126,7 +126,8 @@ async function copy(visitor: Visitor) {
   notifications.attachNotification({
     icon: "mdi-check",
     color: "success",
-    title: "visitor.success.description",
+    title: "visitor.create.response.success.title",
+    content: "visitor.create.response.success.description",
     timeout: 1000,
   });
 }
@@ -138,16 +139,16 @@ async function remove(visitor: Visitor) {
     notifications.attachNotification({
       icon: "mdi-check",
       color: "success",
-      title: "visitor.removed.success.title",
-      content: "visitor.removed.success.description",
+      title: "visitor.remove.response.success.title",
+      content: "visitor.remove.response.success.description",
     });
     await fetch();
   } catch {
     notifications.attachNotification({
       icon: "mdi-alert",
       color: "error",
-      title: "visitor.removed.error.title",
-      content: "visitor.removed.error.description",
+      title: "visitor.remove.response.error.title",
+      content: "visitor.remove.response.error.description",
     });
   }
 }

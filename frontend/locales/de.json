@@ -1,107 +1,140 @@
 {
   "layout": {
-    "nav": {
-      "login": "Einloggen",
-      "logout": "Ausloggen"
-    },
-    "login": {
-      "submit": "Einloggen",
-      "title": "Einloggen",
-      "signup": "Registrieren",
-      "success": {
-        "title": "Login erfolgreich!",
-        "description": "Du bist nun eingeloggt"
+    "navigation": {
+      "authentication": {
+        "tooltip": {
+          "login": "Einloggen",
+          "logout": "Ausloggen"
+        },
+        "form": {
+          "submit": "Einloggen",
+          "title": "Einloggen",
+          "signup": "Registrieren",
+          "response": {
+            "success": {
+              "title": "Login erfolgreich!",
+              "description": "Du bist nun eingeloggt"
+            },
+            "error": {
+              "title": "Login fehlgeschlagen!",
+              "description": "Bitte überprüfe deine Angaben und versuche es dann erneut"
+            }
+          }
+        }
       },
-      "error": {
-        "title": "Login fehlgeschlagen!",
-        "description": "Bitte überprüfe deine Angaben und versuche es dann erneut"
-      }
-    },
-    "logout": {
-      "success": {
-        "title": "Erfolgreich ausgeloggt",
-        "description": "Du bist nun ausgeloggt"
+      "logout": {
+        "response": {
+          "success": {
+            "title": "Erfolgreich ausgeloggt",
+            "description": "Du bist nun ausgeloggt"
+          }
+        }
       }
     }
   },
   "form": {
     "username": "Benutzername",
-    "password": "Passwort",
-    "repeat": "Erneut eingeben",
-    "required": "Pflichtfeld",
-    "select": "auswählen",
-    "confirm": "bestätigen",
-    "edit": "bearbeiten",
+    "password": {
+      "label": "Passwort",
+      "strength": {
+        "0": "Sehr schwach",
+        "1": "Schwach",
+        "2": "Medium",
+        "3": "Stark",
+        "4": "Sehr stark"
+      }
+    },
+    "validation": {
+      "required": "Pflichtfeld",
+      "repeat": "Erneut eingeben"
+    },
+    "action": {
+      "select": "auswählen",
+      "confirm": "bestätigen",
+      "edit": "bearbeiten"
+    },
     "save": {
-      "success": "Erfolgreich gespeichert",
-      "error": "Beim speichern ist ein Fehler aufgetreten"
-    },
-    "strength": {
-      "0": "Sehr schwach",
-      "1": "Schwach",
-      "2": "Medium",
-      "3": "Stark",
-      "4": "Sehr stark"
+      "response": {
+        "success": {
+          "title": "Erfolgreich gespeichert",
+          "description": "Der Eintrag wurde erfolgreich gespeichert und wird neu geladen."
+        },
+        "error": {
+          "title": "Es ist ein Fehler aufgetreten",
+          "description": "Der Speichervorgang wurde von einem unerwarteten Fehler abgebrochen"
+        }
+      }
     }
   },
-  "dashboard": {
-    "title": "Deine Events",
-    "create": "Neues Event erstellen",
-    "edit": "Event bearbeiten",
-    "visitors": "Besucher"
-  },
-  "event": {
-    "title": "Titel",
-    "dates": "mögliche Tage",
-    "status": "Abstimmung einsehen",
-    "votes": "keine Stimme | eine Stimme | {count} Stimmen",
-    "overview": {
-      "votes": "Stimmen für den {date}"
-    }
-  },
-  "signup": {
-    "title": "Registrieren",
-    "success": {
-      "title": "Erfolgreich registriert",
-      "description": "Du wirst nun auf das Dashboard weitergeleitet"
+  "page": {
+    "dashboard": {
+      "title": "Deine Events",
+      "event": {
+        "create": {
+          "title": "Titel",
+          "dates": "mögliche Tage"
+        },
+        "status": "Abstimmung einsehen",
+        "tooltip": "keine Stimme | eine Stimme | {count} Stimmen",
+        "votes": "Stimmen für den {date}",
+        "edit": "Event bearbeiten",
+        "visitors": "Besucher"
+      }
     },
-    "error": {
-      "title": "Es ist ein Fehler aufgetreten",
-      "description": "Wahrscheinlich ist der Nutzername bereits vergeben!"
+    "signup": {
+      "title": "Registrieren",
+      "response": {
+        "success": {
+          "title": "Erfolgreich registriert",
+          "description": "Du wirst nun auf das Dashboard weitergeleitet"
+        },
+        "error": {
+          "title": "Es ist ein Fehler aufgetreten",
+          "description": "Wahrscheinlich ist der Nutzername bereits vergeben!"
+        }
+      }
+    },
+    "vote": {
+      "title": "Hey {username}",
+      "subtitle": "Du wurdest anscheinend zu '{event}' eingeladen!",
+      "choose": "Wähle einfach alle dir passenden Daten aus und drücke auf Bestätigen",
+      "response": {
+        "success": "Erfolgreich abgestimmt",
+        "error": "Beim abstimmen ist ein Fehler aufgetreten"
+      },
+      "overview": {
+        "date": "Datum",
+        "votes": "Stimmen"
+      }
     }
   },
   "visitor": {
-    "list": "Besucherliste",
-    "add": "Besucher hinzufügen",
-    "edit": "Benutzer bearbeiten",
-    "remove": "Entfernen",
-    "visitor": {
+    "list": {
+      "title": "Besucherliste",
+      "add": "Besucher hinzufügen",
       "name": "Name",
       "voted": "Abgestimmt",
       "actions": "Aktionen"
     },
-    "success": {
-      "title": "Erfolgreich gespeichert",
-      "description": "Der Abstimmungslink ist in deiner Zwischenablage"
+    "create": {
+      "response": {
+        "success": {
+          "title": "Erfolgreich gespeichert",
+          "description": "Der Abstimmungslink ist in deiner Zwischenablage"
+        }
+      }
     },
-    "removed": {
-      "success": {
-        "title": "Besucher entfernt",
-        "description": "Seine abstimmung und weitere Daten wurden entfernt"
-      },
-      "error": {
-        "title": "Es ist ein Fehler aufgetreten",
-        "description": "Beim Entfernen des Besuchers ist ein unerwarteter Fehler aufgetreten"
+    "remove": {
+      "response": {
+        "success": {
+          "title": "Besucher entfernt",
+          "description": "Seine abstimmung und weitere Daten wurden entfernt"
+        },
+        "error": {
+          "title": "Es ist ein Fehler aufgetreten",
+          "description": "Beim Entfernen des Besuchers ist ein unerwarteter Fehler aufgetreten"
+        }
       }
     }
-  },
-  "vote": {
-    "title": "Hey {username}",
-    "invited": "Du wurdest anscheinend zu '{event}' eingeladen!",
-    "choose": "Wähle einfach alle dir passenden Daten aus und drücke auf Bestätigen",
-    "success": "Erfolgreich abgestimmt",
-    "error": "Beim abstimmen ist ein Fehler aufgetreten",
-    "date": "Datum",
-    "votes": "Stimmen"
   }
 }

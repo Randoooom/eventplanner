@@ -34,7 +34,7 @@
         <v-col cols="12">
           <v-text-field
             color="accent"
-            :label="$t('event.title')"
+            :label="$t('page.dashboard.event.create.title')"
             v-model="current.title"
             :rules="[required($t)]"
           />
@@ -42,7 +42,7 @@
 
         <v-col cols="12">
           <v-card-subtitle>
-            {{ $t("event.dates") }}
+            {{ $t("page.dashboard.event.create.dates") }}
           </v-card-subtitle>
           <v-divider />
 
@@ -63,7 +63,7 @@
         :disabled="disabled(current.title)"
         @click="save"
       >
-        {{ $t("form.confirm") }}
+        {{ $t("form.action.confirm") }}
       </v-btn>
     </v-card-actions>
   </FormDialog>
@@ -82,7 +82,9 @@ import { notificationEmitter } from "~/stores/notifications";
 import moment from "moment";
 
 const title = computed(() =>
-  props.event ? "dashboard.edit" : "dashboard.create"
+  props.event
+    ? "page.dashboard.event.edit"
+    : "page.dashboard.event.create.title"
 );
 const tooltip = computed(() => (props.event ? undefined : "dashboard.create"));
 
@@ -130,14 +132,16 @@ async function save() {
     notifications.attachNotification({
       icon: "mdi-check",
       color: "success",
-      title: "form.save.success",
+      title: "form.save.response.success.title",
+      content: "form.save.response.success.description",
     });
     emit("refresh");
   } catch {
     notifications.attachNotification({
       icon: "mdi-alert",
       color: "error",
-      title: "form.save.error",
+      title: "form.save.response.error.title",
+      content: "form.save.response.error.description",
     });
   }
 
