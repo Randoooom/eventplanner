@@ -1,0 +1,140 @@
+{
+  "layout": {
+    "navigation": {
+      "authentication": {
+        "tooltip": {
+          "login": "login",
+          "logout": "logout"
+        },
+        "form": {
+          "submit": "login",
+          "title": "Login",
+          "signup": "register",
+          "response": {
+            "success": {
+              "title": "Successfully signed in",
+              "description": "You're now authenticated"
+            },
+            "error": {
+              "title": "Login failed",
+              "description": "Please check your credentials and try again"
+            }
+          }
+        }
+      },
+      "logout": {
+        "response": {
+          "success": {
+            "title": "Successfully signed out",
+            "description": "You're session got invalidated"
+          }
+        }
+      }
+    }
+  },
+  "form": {
+    "username": "username",
+    "password": {
+      "label": "password",
+      "strength": {
+        "0": "very weak",
+        "1": "weak",
+        "2": "medium",
+        "3": "strong",
+        "4": "very strong"
+      }
+    },
+    "validation": {
+      "required": "required",
+      "repeat": "insert again"
+    },
+    "action": {
+      "select": "select",
+      "confirm": "confirm",
+      "edit": "edit"
+    },
+    "save": {
+      "response": {
+        "success": {
+          "title": "Save was successful",
+          "description": "The record got updated"
+        },
+        "error": {
+          "title": "Error occurred",
+          "description": "An unknown error interrupted the process"
+        }
+      }
+    }
+  },
+  "page": {
+    "dashboard": {
+      "title": "Your events",
+      "event": {
+        "create": {
+          "title": "title",
+          "dates": "possible dates"
+        },
+        "status": "View voting",
+        "tooltip": "no votes | one vote | {count} votes",
+        "votes": "votes for the {date}",
+        "edit": "edit event",
+        "visitors": "visitors"
+      }
+    },
+    "signup": {
+      "title": "Register",
+      "response": {
+        "success": {
+          "title": "Successfully registered",
+          "description": "You're now being redirected to the dashboard"
+        },
+        "error": {
+          "title": "An error occurred",
+          "description": "The username is probably already in use!"
+        }
+      }
+    },
+    "vote": {
+      "title": "Hey {username}",
+      "subtitle": "Seems like you got invited to '{event}'!",
+      "choose": "Just choose the dates you could possibly attend on and click confirm",
+      "response": {
+        "success": "Voted successfully",
+        "error": "An error occurred during the vote"
+      },
+      "overview": {
+        "date": "date",
+        "votes": "votes"
+      }
+    }
+  },
+  "visitor": {
+    "list": {
+      "title": "visitor list",
+      "add": "add visitor",
+      "name": "name",
+      "voted": "voted",
+      "actions": "actions"
+    },
+    "create": {
+      "response": {
+        "success": {
+          "title": "Saved successfully",
+          "description": "The voting url is in your clipboard!"
+        }
+      }
+    },
+    "remove": {
+      "response": {
+        "success": {
+          "title": "Visitor got removed",
+          "description": "His whole data got pruned"
+        },
+        "error": {
+          "title": "An error occurred",
+          "description": "An error occurred during the process"
+        }
+      }
+    }
+  }
+}
