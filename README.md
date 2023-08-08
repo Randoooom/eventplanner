@@ -78,5 +78,11 @@ server {
 }
 ```
 
+## Roadmap
+
+- more tests
+- ui/ux adjustments
+- index page
+
 ## License
 The Source-Code is licensed under the [AGPL v3.0 license](https://github.com/Randoooom/eventplanner/blob/master/LICENSE.md).

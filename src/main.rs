@@ -64,8 +64,11 @@ macro_rules! migrations {
 #[cfg_attr(test, derive(Getters))]
 #[cfg_attr(test, get = "pub")]
 pub struct ConnectionInfo {
+    #[allow(unused)]
     namespace: String,
+    #[allow(unused)]
     database: String,
+    #[allow(unused)]
     connection: Surreal<Client>,
 }
 
