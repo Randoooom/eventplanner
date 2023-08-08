@@ -1,0 +1,16 @@
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "@nuxtjs/types",
+      "@nuxtjs/i18n",
+      "surrealdb.wasm/ws",
+      "@types/zxcvbn"
+    ],
+    "typeRoots": [
+      "~/nuxt.d.ts"
+    ],
+    "resolveJsonModule": true
+  }
+}
