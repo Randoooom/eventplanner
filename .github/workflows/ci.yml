@@ -5,7 +5,13 @@ on:
   push:
     branches:
       - master
+    paths:
+      - "**.rs"
+      - "**.suql"
   pull_request:
+    paths:
+      - "**.rs"
+      - "**.suql"
   merge_group:
 
 jobs:
