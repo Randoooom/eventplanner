@@ -16,7 +16,7 @@
  */
 
 export const required = (t: any) => (value: any) =>
-  !!value || t("form.required");
+  !!value || t("form.validation.required");
 
 export const disabled = (t: any, ...items: any[]) =>
   items.some((item: any) => typeof required(t)(item) === "string");

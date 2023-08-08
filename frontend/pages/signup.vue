@@ -19,7 +19,7 @@
   <v-container class="d-flex justify-center align-center">
     <v-card width="500px">
       <v-card-title>
-        {{ $t("signup.title") }}
+        {{ $t("page.signup.title") }}
       </v-card-title>
 
       <v-card-text>
@@ -42,7 +42,7 @@
               color="accent"
               v-model="confirm"
               strength
-              label="form.repeat"
+              label="form.validation.repeat"
             />
           </v-col>
         </v-row>
@@ -57,7 +57,7 @@
           "
           @click="signup"
         >
-          {{ $t("form.confirm") }}
+          {{ $t("form.action.confirm") }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -88,19 +88,18 @@ async function signup() {
     await $surrealdb.signup(username.value, password.value);
     emitter.attachNotification({
       color: "success",
-      content: "signup.success.description",
+      title: "page.signup.response.success.title",
+      content: "page.signup.response.success.description",
       icon: "mdi-check",
-      title: "signup.success.title",
     });
 
     await useRouter().push(localePath("/dashboard"));
-  } catch (e) {
-    console.log(e);
+  } catch {
     emitter.attachNotification({
       color: "error",
-      content: "signup.error.description",
+      title: "page.signup.response.error.title",
+      content: "page.signup.response.error.description",
       icon: "mdi-alert",
-      title: "signup.error.title",
     });
   }
 }

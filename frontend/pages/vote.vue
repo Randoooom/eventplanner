@@ -19,7 +19,7 @@
   <v-container v-if="visitor">
     <v-card class="pa-3" v-if="!voted">
       <v-card-title class="text-h3">
-        {{ $t("vote.title", { username: visitor.username }) }}
+        {{ $t("page.vote.title", { username: visitor.username }) }}
       </v-card-title>
 
       <v-divider class="mt-2" />
@@ -27,11 +27,11 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" class="text-h6">
-            {{ $t("vote.invited", { event: visitor.event.title }) }}
+            {{ $t("page.vote.subtitle", { event: visitor.event.title }) }}
           </v-col>
 
           <v-col cols="12">
-            {{ $t("vote.choose") }}
+            {{ $t("page.vote.choose") }}
           </v-col>
 
           <v-col cols="12">
@@ -48,13 +48,13 @@
 
       <v-card-actions>
         <v-btn variant="text" color="accent" @click="vote">
-          {{ $t("form.confirm") }}
+          {{ $t("form.action.confirm") }}
         </v-btn>
       </v-card-actions>
     </v-card>
 
     <v-banner v-else color="success" icon="mdi-check">
-      {{ $t("vote.success") }}
+      {{ $t("page.vote.response.success") }}
     </v-banner>
   </v-container>
 </template>
@@ -82,7 +82,6 @@ const id = route.query.visitor as string | undefined;
 const voted = ref(false);
 const visitor = ref(undefined as Visitor | undefined);
 const dates = ref([]);
-const allowed = ref([]);
 
 onMounted(async () => {
   if (!id) {
@@ -114,14 +113,14 @@ async function vote() {
     notifications.attachNotification({
       icon: "mdi-check",
       color: "success",
-      title: "vote.success",
+      title: "page.vote.response.success",
     });
     voted.value = true;
   } catch {
     notifications.attachNotification({
       icon: "mdi-alert",
       color: "error",
-      title: "vote.error",
+      title: "page.vote.response.error",
     });
   }
 }

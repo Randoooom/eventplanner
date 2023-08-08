@@ -22,7 +22,7 @@
     </template>
 
     <v-card-title>
-      {{ $t("visitor.add") }}
+      {{ $t("visitor.list.add") }}
     </v-card-title>
 
     <v-card-text class="mt-3">
@@ -45,7 +45,7 @@
         :disabled="disabled(username)"
         @click="save"
       >
-        {{ $t("form.confirm") }}
+        {{ $t("form.action.confirm") }}
       </v-btn>
     </v-card-actions>
   </FormFloatingDialog>
@@ -100,8 +100,8 @@ async function save() {
     notifications.attachNotification({
       icon: "mdi-check",
       color: "success",
-      title: "visitor.success.title",
-      content: "visitor.success.description",
+      title: "visitor.create.response.success.title",
+      content: "visitor.create.response.success.description",
     });
     emit("refresh");
   } catch (e) {
@@ -109,7 +109,8 @@ async function save() {
     notifications.attachNotification({
       icon: "mdi-alert",
       color: "error",
-      title: "form.save.error",
+      title: "form.save.response.error.title",
+      content: "form.save.response.error.description",
     });
   }
 

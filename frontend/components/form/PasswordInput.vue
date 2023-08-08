@@ -40,7 +40,7 @@ const show = ref(false);
 const { t } = useI18n();
 
 defineProps({
-  label: { type: String, required: false, default: "form.password" },
+  label: { type: String, required: false, default: "form.password.label" },
   dataFormType: { type: String, required: false, default: "password" },
   strength: { type: Boolean, required: false, default: false },
 });
@@ -48,15 +48,15 @@ defineProps({
 const score = computed<string>(() => {
   switch (zxcvbn(password.value).score) {
     case 0:
-      return t("form.strength.0");
+      return t("form.password.strength.0");
     case 1:
-      return t("form.strength.1");
+      return t("form.password.strength.1");
     case 2:
-      return t("form.strength.2");
+      return t("form.password.strength.2");
     case 3:
-      return t("form.strength.3");
+      return t("form.password.strength.3");
     case 4:
-      return t("form.strength.4");
+      return t("form.password.strength.4");
   }
 });
 </script>

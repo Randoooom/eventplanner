@@ -18,7 +18,7 @@
 <template>
   <v-container>
     <span class="text-h2 font-weight-bold">
-      {{ $t("dashboard.title") }}
+      {{ $t("page.dashboard.title") }}
     </span>
 
     <v-row class="ma-12">
@@ -27,7 +27,7 @@
         sm="12"
         md="6"
         lg="4"
-        v-for="(event, i) in events"
+        v-for="event in events"
         :key="event.id"
       >
         <v-card class="pa-2 overflow-visible" height="132px">
@@ -58,7 +58,7 @@
             <VisitorList :event="event.id">
               <template #activator="{ activate }">
                 <v-btn variant="tonal" color="accent" @click="activate">
-                  {{ $t("dashboard.visitors") }}
+                  {{ $t("page.dashboard.event.visitors") }}
                 </v-btn>
               </template>
             </VisitorList>
@@ -68,7 +68,7 @@
             <EventEditor @refresh="fetch" :event="event" custom-activator>
               <template #activator="{ activate }">
                 <v-btn variant="tonal" color="accent" @click="activate">
-                  {{ $t("form.edit") }}
+                  {{ $t("form.action.edit") }}
                 </v-btn>
               </template>
             </EventEditor>
@@ -109,7 +109,6 @@ definePageMeta({
 
 const { $surrealdb } = useNuxtApp();
 const events = ref([] as PlannedEvent[]);
-const calendar = ref([]);
 
 onMounted(async () => {
   await fetch();
