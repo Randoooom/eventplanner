@@ -25,6 +25,7 @@
     :start-time="defaultTime"
     utc="preserve"
     v-bind="$attrs"
+    auto-apply
   >
     <template #action-row="{ selectDate }">
       <v-btn
