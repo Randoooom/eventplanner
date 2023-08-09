@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineNuxtPlugin } from "#imports";
+import { defineNuxtPlugin, useLocalePath, useRouter } from "#imports";
 // @ts-ignore
 import { Surreal } from "surrealdb.wasm/http";
 import { Ref, ref } from "#imports";
@@ -107,6 +107,9 @@ export class SurrealdbConnection {
   async logout() {
     await this.connection.invalidate();
     this.loggedIn.value = false;
+
+    const localePath = useLocalePath();
+    await useRouter().push(localePath("/"));
   }
 }
 
