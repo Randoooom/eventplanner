@@ -161,27 +161,18 @@ const text = (date: Date) =>
   });
 
 async function fetch() {
-  const visitors: Visitor[] = await $surrealdb.connection
-    .query("SELECT * FROM visitor WHERE event = type::thing('event', $event)", {
+  votes.value = await $surrealdb.connection
+    .query("SELECT * FROM fn::vote_overview(type::thing('event', $event))", {
       event: props.event.id.split(":")[1],
     })
-    .then((value: any) => value.map(Object.fromEntries));
+    .then((value: any) =>
+      value.map((vote: VoteResult) => {
+        // @ts-ignore
+        const parsed = Object.fromEntries(vote);
+        parsed.date = new Date(parsed.date);
 
-  // create the votes
-  props.event.dates.forEach((raw: string) => {
-    const date = moment.utc(raw).toDate();
-
-    votes.value.push({
-      date,
-      by: useClone(visitors)
-        .filter((visitor: Visitor) =>
-          visitor.visitable.some(
-            (d: Date) =>
-              moment.utc(d).toDate().toDateString() === date.toDateString()
-          )
-        )
-        .map((visitor: Visitor) => visitor.username),
-    });
-  });
+        return parsed;
+      })
+    );
 }
 </script>

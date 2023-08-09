@@ -63,3 +63,20 @@ DEFINE TABLE visitor SCHEMAFULL
     DEFINE FIELD visitable.* on TABLE visitor TYPE datetime PERMISSIONS FOR update WHERE id = $auth.id;
     DEFINE FIELD created_at on TABLE visitor TYPE datetime      VALUE $value OR time::now();
     DEFINE INDEX usernameEventIndex ON TABLE visitor COLUMNS username, event.id UNIQUE;
+
+DEFINE FUNCTION fn::vote_overview($event: record(event)) {
+    LET $visitors = SELECT username, visitable FROM visitor WHERE event = $event and array::len(visitable) > 0;
+    LET $dates = SELECT dates FROM $event;
+
+    RETURN function($visitors, $dates) {
+        const [visitors, dates] = arguments;
+
+        return dates[0].dates.map((date) => {
+            return {
+                date,
+                by: visitors.filter(visitor => visitor.visitable.some(d => d.toDateString() == date.toDateString()))
+                            .map(visitor => visitor.username)
+            }
+        });
+    }
+};
