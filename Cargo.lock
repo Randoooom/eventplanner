@@ -427,13 +427,14 @@ checksum = "0206175f82b8d6bf6652ff7d71a1e27fd2e4efde587fd368662814d6ec1d9ce0"
 
 [[package]]
 name = "eventplanner"
-version = "0.1.2-alpha"
+version = "1.0.0-beta.1"
 dependencies = [
  "anyhow",
  "chrono",
  "getset",
  "nanoid",
  "serde",
+ "serde_json",
  "surrealdb",
  "tokio",
  "tracing",
