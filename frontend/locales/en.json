@@ -67,6 +67,26 @@
     }
   },
   "page": {
+    "home": {
+      "title": "A simple tool to help you finding the best possible time for your event.",
+      "subtitle": "Open-Source planning system",
+      "start": "Get Started",
+      "github": "View on GitHub",
+      "cards": {
+        "1": {
+          "title": "minimalistic",
+          "subtitle": "designed without unnecessary features"
+        },
+        "2": {
+          "title": "small data amount",
+          "subtitle": "we collect nearly zero user data"
+        },
+        "3": {
+          "title": "easy",
+          "subtitle": "plug in and do it"
+        }
+      }
+    },
     "dashboard": {
       "title": "Your events",
       "event": {

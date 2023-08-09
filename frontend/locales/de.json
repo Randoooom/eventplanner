@@ -67,6 +67,26 @@
     }
   },
   "page": {
+    "home": {
+      "title": "Ein einfaches Tool um ein Datum zu vereinbaren.",
+      "subtitle": "Open-Source Planungssystem",
+      "start": "Starte hier",
+      "github": "Auf GitHub ansehen",
+      "cards": {
+        "1": {
+          "title": "Minimalistisch",
+          "subtitle": "Ein Applikationsdesign ohne viel Schnickschnack"
+        },
+        "2": {
+          "title": "Datenarm",
+          "subtitle": "Es werden so gut wie keine Daten von Nutzern erfasst"
+        },
+        "3": {
+          "title": "Einfach",
+          "subtitle": "Kein Hintergrundwissen ist vorausgesetzt"
+        }
+      }
+    },
     "dashboard": {
       "title": "Deine Events",
       "event": {
