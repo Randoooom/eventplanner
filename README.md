@@ -81,7 +81,7 @@ server {
 ```
 
 ## Demo
-An demo application deployed using `ghcr.io/randoooom/eventplanner:static` is deployed [here](https://event.randoms.rocks).
+An demo application deployed using `ghcr.io/randoooom/eventplanner:latest` is deployed [here](https://event.randoms.rocks).
 
 ## Roadmap
 
