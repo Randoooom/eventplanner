@@ -2,7 +2,6 @@ FROM rust:slim-buster as rust-build
 
 RUN apt-get update
 RUN apt-get install build-essential libssl-dev pkg-config clang lld protobuf-compiler -y
-RUN rustup default nightly-2023-04-21-x86_64-unknown-linux-gnu
 
 # precompile the dependencies as such without code changes
 RUN USER=root cargo init --bin --name eventplanner
@@ -24,7 +23,7 @@ COPY --from=rust-build /target/release/eventplanner .
 
 CMD ./eventplanner
 
-FROM node:16-alpine as build-static
+FROM node:18-alpine as build-static
 
 # prepare pnpm
 RUN npm i -g pnpm
@@ -40,7 +39,7 @@ RUN pnpm i --frozen-lockfile
 COPY ./frontend/ ./
 RUN pnpm run generate
 
-FROM node:16-alpine as build-ssr
+FROM node:18-alpine as build-ssr
 
 # prepare pnpm
 RUN npm i -g pnpm
@@ -73,7 +72,7 @@ CMD ./eventplanner \
     && find /.output/public -type f -exec sed -i 's@NUXT_PUBLIC_SURREALDB_ENDPOINT@'"$NUXT_PUBLIC_SURREALDB_ENDPOINT"'@' {} + \
     && nginx -g "daemon off;"
 
-FROM node:16-buster-slim as ssr
+FROM node:18-buster-slim as ssr
 
 COPY --from=rust-build /target/release/eventplanner ./
 COPY --from=build-ssr /frontend/.output/ ./.output
