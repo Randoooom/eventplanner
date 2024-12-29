@@ -16,13 +16,11 @@
  */
 
 use crate::ConnectionInfo;
-use chrono::{DateTime, Duration, Utc};
+use chrono::{Duration, Utc};
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 use surrealdb::engine::remote::ws::Client;
-use surrealdb::opt::auth::Scope;
-use surrealdb::sql::Thing;
-use surrealdb::Surreal;
+use surrealdb::opt::auth::Record;
+use surrealdb::{Datetime, RecordId, Surreal};
 
 #[derive(Serialize, Debug)]
 struct AccountAuthParams<'a> {
@@ -32,28 +30,34 @@ struct AccountAuthParams<'a> {
 
 #[derive(Deserialize, Serialize, Debug)]
 struct Account {
-    id: Thing,
+    id: RecordId,
     username: String,
     password: String,
-    created_at: DateTime<Utc>,
+    created_at: Datetime,
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 struct Event {
-    id: Thing,
+    id: RecordId,
     title: String,
-    organizer: Thing,
-    dates: Vec<DateTime<Utc>>,
-    created_at: DateTime<Utc>,
+    organizer: RecordId,
+    dates: Vec<Datetime>,
+    created_at: Datetime,
+}
+
+#[derive(Deserialize, Serialize, Debug, PartialEq)]
+struct CreateEvent<'a> {
+    title: &'a str,
+    dates: Vec<Datetime>,
 }
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 struct Visitor {
-    id: Thing,
+    id: RecordId,
     username: String,
-    event: Thing,
-    visitable: Vec<DateTime<Utc>>,
-    created_at: DateTime<Utc>,
+    event: RecordId,
+    visitable: Vec<Datetime>,
+    created_at: Datetime,
 }
 
 async fn signup(
@@ -64,10 +68,10 @@ async fn signup(
     password: &str,
 ) -> anyhow::Result<()> {
     assert!(connection
-        .signup(Scope {
+        .signup(Record {
             namespace,
             database,
-            scope: "account",
+            access: "account",
             params: AccountAuthParams { username, password },
         })
         .await
@@ -88,10 +92,10 @@ async fn start_default(info: ConnectionInfo) -> anyhow::Result<ConnectionInfo> {
 
     assert!(info
         .connection
-        .signin(Scope {
+        .signin(Record {
             namespace: info.namespace(),
             database: info.database(),
-            scope: "account",
+            access: "account",
             params: AccountAuthParams {
                 username: "username",
                 password: "password",
@@ -132,17 +136,17 @@ async fn test_select_account() -> anyhow::Result<()> {
 }
 
 async fn create_event(connection: &Surreal<Client>) -> anyhow::Result<Event> {
-    let dates = vec![Utc::now()];
+    let dates = vec![Datetime::from(Utc::now())];
 
     let event = connection
         .create("event")
-        .content(json! ({
-            "title": "Event",
-            "dates": dates
-        }))
+        .content(CreateEvent {
+            title: "Event",
+            dates,
+        })
         .await?;
 
-    Ok(event)
+    Ok(event.unwrap())
 }
 
 #[tokio::test]
@@ -177,13 +181,16 @@ async fn test_update_event() -> anyhow::Result<()> {
     let connection = info.connection();
     let event = create_event(connection).await?;
 
-    let dates = vec![Utc::now() + Duration::days(1)];
+    let dates = vec![Datetime::from(Utc::now() + Duration::days(1))];
     connection
         .query("UPDATE $event SET dates=$dates")
         .bind(("event", event.id.clone()))
         .bind(("dates", dates.clone()))
         .await?;
-    let event: Event = connection.select::<Option<Event>>(event.id.clone()).await?;
+    let event: Event = connection
+        .select::<Option<Event>>(event.id.clone())
+        .await?
+        .unwrap();
     assert_eq!(dates, event.dates);
 
     Ok(())
@@ -201,8 +208,8 @@ async fn test_get_events() -> anyhow::Result<()> {
 }
 
 async fn create_visitor(
-    username: &str,
-    event: Thing,
+    username: &'static str,
+    event: RecordId,
     connection: &Surreal<Client>,
 ) -> anyhow::Result<Visitor> {
     let visitor = connection
@@ -241,6 +248,7 @@ async fn test_get_visitor() -> anyhow::Result<()> {
         connection
             .select::<Option<Visitor>>(visitor.id.clone())
             .await?
+            .unwrap()
     );
     Ok(())
 }

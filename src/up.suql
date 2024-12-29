@@ -15,13 +15,15 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-DEFINE SCOPE account SESSION 1h
+DEFINE ACCESS account ON DATABASE TYPE RECORD
     SIGNUP (CREATE account SET username = $username, password = crypto::argon2::generate($password))
-    SIGNIN (SELECT * FROM account WHERE username = $username AND crypto::argon2::compare(password, $password));
+    SIGNIN (SELECT * FROM account WHERE username = $username AND crypto::argon2::compare(password, $password))
+    DURATION FOR TOKEN 15m, FOR SESSION 12h;
 
-DEFINE SCOPE visitor SESSION 1h
+DEFINE ACCESS visitor ON DATABASE TYPE RECORD
     SIGNUP (SELECT * FROM NULL)
-    SIGNIN (SELECT * FROM visitor WHERE id = type::thing("visitor", $id));
+    SIGNIN (SELECT * FROM visitor WHERE id = type::thing("visitor", $id))
+    DURATION FOR TOKEN 15m, FOR SESSION 12h;
 
 DEFINE TABLE account SCHEMAFULL
     PERMISSIONS
@@ -29,25 +31,25 @@ DEFINE TABLE account SCHEMAFULL
         FOR update NONE
         FOR delete WHERE id = $auth.id
         FOR create NONE;
-    DEFINE FIELD username   on TABLE account TYPE string    ASSERT $value IS NOT NULL;
-    DEFINE FIELD password   on TABLE account TYPE string    ASSERT $value IS NOT NULL;
-    DEFINE FIELD created_at on TABLE account TYPE datetime  VALUE $value OR time::now();
+    DEFINE FIELD username   on TABLE account TYPE string;
+    DEFINE FIELD password   on TABLE account TYPE string;
+    DEFINE FIELD created_at on TABLE account TYPE datetime DEFAULT time::now();
     DEFINE INDEX usernameIndex on TABLE account COLUMNS username UNIQUE;
 
 DEFINE TABLE event SCHEMAFULL
     PERMISSIONS
         FOR select WHERE
-            (session::sc() = "account" AND organizer.id = $auth.id)
+            (session::ac() = "account" AND organizer.id = $auth.id)
             OR
-            (session::sc() = "visitor" AND $auth.id.event = id)
+            (session::ac() = "visitor" AND $auth.id.event = id)
         FOR update WHERE organizer.id = $auth.id
         FOR delete WHERE organizer.id = $auth.id
-        FOR create WHERE session::sc() = "account";
-    DEFINE FIELD title      on TABLE event TYPE string      ASSERT $value IS NOT NULL;
-    DEFINE FIELD organizer  on TABLE event TYPE record(account) VALUE $value OR $auth.id;
-    DEFINE FIELD dates      on TABLE event TYPE array       ASSERT $value IS NOT NULL;
+        FOR create WHERE session::ac() = "account";
+    DEFINE FIELD title      on TABLE event TYPE string;
+    DEFINE FIELD organizer  on TABLE event TYPE record<account> DEFAULT $auth.id;
+    DEFINE FIELD dates      on TABLE event TYPE array;
     DEFINE FIELD dates.*    ON TABLE event TYPE datetime;
-    DEFINE FIELD created_at on TABLE event TYPE datetime    VALUE $value OR time::now();
+    DEFINE FIELD created_at on TABLE event TYPE datetime DEFAULT time::now();
 
 DEFINE TABLE visitor SCHEMAFULL
     PERMISSIONS
@@ -57,14 +59,14 @@ DEFINE TABLE visitor SCHEMAFULL
             id = $auth.id
         FOR delete WHERE event.organizer.id = $auth.id
         FOR create WHERE event.organizer.id = $auth.id;
-    DEFINE FIELD username   on TABLE visitor TYPE string        ASSERT $value IS NOT NULL;
-    DEFINE FIELD event      on TABLE visitor TYPE record(event) ASSERT $value IS NOT NULL;
-    DEFINE FIELD visitable  on TABLE visitor TYPE array         VALUE $value OR [] PERMISSIONS FOR update WHERE id = $auth.id;
+    DEFINE FIELD username   on TABLE visitor TYPE string;
+    DEFINE FIELD event      on TABLE visitor TYPE record<event>;
+    DEFINE FIELD visitable  on TABLE visitor TYPE array         DEFAULT [] PERMISSIONS FOR update WHERE id = $auth.id;
     DEFINE FIELD visitable.* on TABLE visitor TYPE datetime PERMISSIONS FOR update WHERE id = $auth.id;
-    DEFINE FIELD created_at on TABLE visitor TYPE datetime      VALUE $value OR time::now();
+    DEFINE FIELD created_at on TABLE visitor TYPE datetime      DEFAULT time::now();
     DEFINE INDEX usernameEventIndex ON TABLE visitor COLUMNS username, event.id UNIQUE;
 
-DEFINE FUNCTION fn::vote_overview($event: record(event)) {
+DEFINE FUNCTION fn::vote_overview($event: record<event>) {
     LET $visitors = SELECT username, visitable FROM visitor WHERE event = $event and array::len(visitable) > 0;
     LET $dates = SELECT dates FROM $event;
 
