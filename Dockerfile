@@ -2,6 +2,8 @@ FROM --platform=linux/amd64 rust:slim-buster AS rust-build
 
 RUN apt-get update
 RUN apt-get install build-essential libssl-dev pkg-config clang lld protobuf-compiler gcc-aarch64-linux-gnu libc6-dev-arm64-cross musl-tools -y
+RUN rustup toolchain install stable
+RUN rustup default stable
 
 # precompile the dependencies as such without code changes
 RUN USER=root cargo init --bin --name eventplanner
