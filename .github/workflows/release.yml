@@ -15,9 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          override: true
+        uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - name: Checkout Sources
         uses: actions/checkout@v3
@@ -35,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install toolchain
-        uses: actions-rs/toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           override: true
           components: clippy
@@ -56,9 +54,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install toolchain
-        uses: actions-rs/toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          override: true
           profile: minimal
 
       - name: Checkout Sources
