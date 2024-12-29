@@ -1,7 +1,7 @@
 SURREALDB_VERSION ?= v2.1.4
 
 clippy:
-	cargo clippy
+	cargo clippy -- -D warnings
 
 check:
 	cargo check
