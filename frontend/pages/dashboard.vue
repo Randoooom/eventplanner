@@ -117,7 +117,7 @@ onMounted(async () => {
 async function fetch() {
   events.value = await $surrealdb.connection
     .select("event")
-    .then((value: any) => value.map(Object.fromEntries));
+    .then((value: any) => value);
 }
 </script>
 

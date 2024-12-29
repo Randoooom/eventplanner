@@ -79,8 +79,8 @@
     color="accent"
     v-if="
       $surrealdb.loggedIn.value &&
-      $surrealdb.scope.value &&
-      $surrealdb.scope.value === 'account'
+      $surrealdb.access.value &&
+      $surrealdb.access.value === 'account'
     "
   >
     Dashboard

@@ -100,7 +100,7 @@ const notifications = notificationEmitter();
 const dialog = ref(false);
 const visitors = ref([] as Visitor[]);
 const props = defineProps({
-  event: { type: String, required: true },
+  event: { type: Object, required: true },
 });
 
 watch(dialog, async (value: boolean) => {
@@ -109,17 +109,17 @@ watch(dialog, async (value: boolean) => {
 
 async function fetch() {
   visitors.value = await $surrealdb.connection
-    .query("SELECT * FROM visitor WHERE type::string(event) = $event", {
+    .query("SELECT * FROM visitor WHERE event = type::thing($event)", {
       event: props.event,
     })
-    .then((value: any) => value.map(Object.fromEntries));
+    .then((value: any) => value[0]);
 }
 
 async function copy(visitor: Visitor) {
   // copy the voting link
   await clipboard.write(
     `https://${document.location.hostname}${localePath("/vote")}?visitor=${
-      visitor.id.split(":")[1]
+      visitor.id.id
     }`
   );
 

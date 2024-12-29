@@ -23,51 +23,60 @@ const generate = process.env.BUILD === "static";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: false },
-  app: {
-    head: {
-      title: "EP",
-      charset: "utf-8",
-      viewport: "width=device-width, initial-scale=1",
-      meta: [{ name: "format-detection", content: "telephone=no" }],
-      style: [],
-      script: [],
-    },
-  },
-  i18n: {
-    locales: [
-      { code: "de", iso: "de-DE", file: "de.json" },
-      { code: "en", iso: "en-US", file: "en.json" },
-    ],
-    lazy: true,
-    langDir: "./locales",
-    defaultLocale: "en",
-    detectBrowserLanguage: {
-      cookieKey: "lang",
-      useCookie: true,
-      redirectOn: "root",
-      alwaysRedirect: true,
-    },
-  },
-  css: [
-    "vuetify/styles",
-    "@mdi/font/css/materialdesignicons.min.css",
-    "@/assets/main.sass",
-  ],
-  build: {
-    transpile: ["vuetify", "lodash"],
-  },
-  modules: ["@nuxtjs/i18n", "@pinia/nuxt", "nuxt-lodash"],
-  vite: {
-    plugins: production ? [wasm(), topLevelAwait()] : [],
-    optimizeDeps: {
-      exclude: production ? [] : ["surrealdb.wasm"],
-    },
-  },
-  runtimeConfig: {
-    public: {
-      surrealdbEndpoint: "NUXT_PUBLIC_SURREALDB_ENDPOINT",
-    },
-  },
-  ssr: !generate,
+ devtools: { enabled: false },
+
+ app: {
+   head: {
+     title: "EP",
+     charset: "utf-8",
+     viewport: "width=device-width, initial-scale=1",
+     meta: [{ name: "format-detection", content: "telephone=no" }],
+     style: [],
+     script: [],
+   },
+ },
+
+ i18n: {
+   locales: [
+     { code: "de", iso: "de-DE", file: "de.json" },
+     { code: "en", iso: "en-US", file: "en.json" },
+   ],
+   lazy: true,
+   langDir: "./locales",
+   defaultLocale: "en",
+   detectBrowserLanguage: {
+     cookieKey: "lang",
+     useCookie: true,
+     redirectOn: "root",
+     alwaysRedirect: true,
+   },
+ },
+
+ css: [
+   "vuetify/styles",
+   "@mdi/font/css/materialdesignicons.min.css",
+   "@/assets/main.sass",
+ ],
+
+ build: {
+   transpile: ["vuetify", "lodash"],
+ },
+
+ modules: ["@nuxtjs/i18n", "@pinia/nuxt", "nuxt-lodash"],
+
+ vite: {
+   plugins: production ? [wasm(), topLevelAwait()] : [],
+   optimizeDeps: {
+     exclude: production ? [] : ["@surrealdb/wasm"],
+   },
+ },
+
+ runtimeConfig: {
+   public: {
+     surrealdbEndpoint: "NUXT_PUBLIC_SURREALDB_ENDPOINT",
+   },
+ },
+
+ ssr: !generate,
+ compatibilityDate: "2024-12-29",
 });

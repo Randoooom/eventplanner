@@ -58,12 +58,13 @@ DEFINE TABLE visitor SCHEMAFULL
             OR
             id = $auth.id
         FOR delete WHERE event.organizer.id = $auth.id
-        FOR create WHERE event.organizer.id = $auth.id;
-    DEFINE FIELD username   on TABLE visitor TYPE string;
-    DEFINE FIELD event      on TABLE visitor TYPE record<event>;
+        FOR create WHERE event.organizer.id = $auth.id
+        FOR update WHERE id = $auth.id;
+    DEFINE FIELD username   on TABLE visitor TYPE string PERMISSIONS FOR update NONE;
+    DEFINE FIELD event      on TABLE visitor TYPE record<event> PERMISSIONS FOR update NONE;
     DEFINE FIELD visitable  on TABLE visitor TYPE array         DEFAULT [] PERMISSIONS FOR update WHERE id = $auth.id;
     DEFINE FIELD visitable.* on TABLE visitor TYPE datetime PERMISSIONS FOR update WHERE id = $auth.id;
-    DEFINE FIELD created_at on TABLE visitor TYPE datetime      DEFAULT time::now();
+    DEFINE FIELD created_at on TABLE visitor TYPE datetime      DEFAULT time::now() PERMISSIONS FOR update NONE;
     DEFINE INDEX usernameEventIndex ON TABLE visitor COLUMNS username, event.id UNIQUE;
 
 DEFINE FUNCTION fn::vote_overview($event: record<event>) {

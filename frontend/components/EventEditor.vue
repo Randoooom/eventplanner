@@ -79,14 +79,12 @@ import {
   useNuxtApp,
 } from "#imports";
 import { notificationEmitter } from "~/stores/notifications";
-import moment from "moment";
 
 const title = computed(() =>
   props.event
     ? "page.dashboard.event.edit"
     : "page.dashboard.event.create.title"
 );
-const tooltip = computed(() => (props.event ? undefined : "dashboard.create"));
 
 const { $surrealdb } = useNuxtApp();
 const notifications = notificationEmitter();
@@ -117,11 +115,11 @@ const current = ref({
 
 async function save() {
   current.value.dates = current.value.dates.map((date: string | Date) =>
-    moment.utc(date).toISOString()
+    new Date(date) 
   );
   try {
     if (props.event) {
-      await $surrealdb.connection.update(props.event.id, {
+      await $surrealdb.connection.merge(props.event.id, {
         dates: current.value.dates,
         title: current.value.title,
       });

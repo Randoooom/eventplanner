@@ -68,7 +68,7 @@ const { $surrealdb } = useNuxtApp();
 const notifications = notificationEmitter();
 const emit = defineEmits(["refresh"]);
 const props = defineProps({
-  event: { type: String, required: true },
+  event: { type: Object, required: true },
 });
 const dialog = ref(false);
 const username = ref("");
@@ -79,21 +79,20 @@ watch(dialog, (value: boolean) => {
 
 async function save() {
   try {
-    let visitor = await $surrealdb.connection
+    const visitor = await $surrealdb.connection
       .query(
         'CREATE visitor CONTENT { "username": $username, "event": type::thing("event", $event) }',
         {
           username: username.value,
-          event: props.event.split(":")[1],
+          event: props.event.id,
         }
       )
-      .then((value: any) => value[0]);
-    visitor = Object.fromEntries(visitor);
+      .then((value: any) => value[0][0]);
 
     // copy the voting link
     await clipboard.write(
       `https://${document.location.hostname}${localePath("/vote")}?visitor=${
-        visitor.id.split(":")[1]
+        visitor.id.id
       }`
     );
 
@@ -104,8 +103,7 @@ async function save() {
       content: "visitor.create.response.success.description",
     });
     emit("refresh");
-  } catch (e) {
-    console.log(e);
+  } catch {
     notifications.attachNotification({
       icon: "mdi-alert",
       color: "error",
