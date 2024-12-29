@@ -78,5 +78,5 @@ jobs:
           SURREALDB_USERNAME: root
           SURREALDB_PASSWORD: root
         run: |
-          docker run -d -p 8080:8000 surrealdb/surrealdb:latest start -u root -p root
+          docker run -d -p 8080:8000 surrealdb/surrealdb:1.0.0-beta.9-20230402 start -u root -p root
           cargo test

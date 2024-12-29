@@ -37,7 +37,7 @@ Currently, are only deployments with docker supported:
 version: "3"
 services:
   database:
-    image: surrealdb/surrealdb:latest
+    image: surrealdb/surrealdb:1.0.0-beta.9-20230402
     environment:
       - SURREAL_USER=<USERNAME>
       - SURREAL_PASS=<PASSWORD>
@@ -88,6 +88,7 @@ An demo application deployed using `ghcr.io/randoooom/eventplanner:latest` is de
 - more tests
 - ui/ux adjustments
 - index page
+- bump surrealdb
 
 ## License
 The Source-Code is licensed under the [AGPL v3.0 license](https://github.com/Randoooom/eventplanner/blob/master/LICENSE.md).
