@@ -1,29 +1,30 @@
-FROM rust:slim-buster as rust-build
+FROM --platform=linux/amd64 rust:slim-buster AS rust-build
 
 RUN apt-get update
-RUN apt-get install build-essential libssl-dev pkg-config clang lld protobuf-compiler -y
+RUN apt-get install build-essential libssl-dev pkg-config clang lld protobuf-compiler gcc-aarch64-linux-gnu libc6-dev-arm64-cross musl-tools -y
 
 # precompile the dependencies as such without code changes
 RUN USER=root cargo init --bin --name eventplanner
 COPY ./Cargo.toml ./Cargo.toml
 
 RUN cargo update
-RUN cargo build --release
-# remove unnecessary files
+
 RUN rm -rf src/*
-
 COPY ./src ./src
-RUN rm -rf ./target/release/deps/eventplanner*
-# build the release version
-RUN cargo build --release
 
-FROM gcr.io/distroless/cc-debian11:latest as backend-standalone
+ARG TARGETARCH
 
-COPY --from=rust-build /target/release/eventplanner .
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+        mkdir .cargo; \
+        echo '[target.aarch64-unknown-linux-gnu]\nlinker = "aarch64-linux-gnu-gcc"' >> .cargo/config.toml; \
+        rustup target add aarch64-unknown-linux-gnu; \
+        cargo build --release --target aarch64-unknown-linux-gnu; \
+        mv target/aarch64-unknown-linux-gnu/release/eventplanner target/release/eventplanner; \
+    else \
+        cargo build --release; \
+    fi
 
-CMD ./eventplanner
-
-FROM node:18-alpine as build-static
+FROM --platform=linux/amd64 node:18-alpine AS build-static
 
 # prepare pnpm
 RUN npm i -g pnpm
@@ -39,7 +40,7 @@ RUN pnpm i --frozen-lockfile
 COPY ./frontend/ ./
 RUN pnpm run generate
 
-FROM node:18-alpine as build-ssr
+FROM --platform=linux/amd64 node:18-alpine AS build-ssr
 
 # prepare pnpm
 RUN npm i -g pnpm
@@ -72,7 +73,7 @@ CMD ./eventplanner \
     && find /.output/public -type f -exec sed -i 's@NUXT_PUBLIC_SURREALDB_ENDPOINT@'"$NUXT_PUBLIC_SURREALDB_ENDPOINT"'@' {} + \
     && nginx -g "daemon off;"
 
-FROM node:18-buster-slim as ssr
+FROM node:18-buster-slim AS ssr
 
 COPY --from=rust-build /target/release/eventplanner ./
 COPY --from=build-ssr /frontend/.output/ ./.output
