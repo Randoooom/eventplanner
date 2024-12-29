@@ -30,11 +30,6 @@ struct AccountAuthParams<'a> {
     password: &'a str,
 }
 
-#[derive(Serialize, Debug)]
-struct VisitorAuthParams<'a> {
-    id: &'a str,
-}
-
 #[derive(Deserialize, Serialize, Debug)]
 struct Account {
     id: Thing,
