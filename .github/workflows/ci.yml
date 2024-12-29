@@ -19,7 +19,6 @@ jobs:
       - name: Install toolchain
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly-2023-04-21
           override: true
 
       - name: Checkout Sources
@@ -40,7 +39,6 @@ jobs:
       - name: Install toolchain
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly-2023-04-21
           override: true
           components: clippy
           profile: minimal
@@ -62,7 +60,6 @@ jobs:
       - name: Install toolchain
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly-2023-04-21
           override: true
           profile: minimal
 
