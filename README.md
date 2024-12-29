@@ -37,7 +37,7 @@ Currently, are only deployments with docker supported:
 version: "3"
 services:
   database:
-    image: surrealdb/surrealdb:1.0.0-beta.9-20230402
+    image: surrealdb/surrealdb:v2.1.4
     environment:
       - SURREAL_USER=<USERNAME>
       - SURREAL_PASS=<PASSWORD>

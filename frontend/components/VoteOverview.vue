@@ -114,8 +114,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, useNuxtApp, watch, useClone, computed, useI18n } from "#imports";
-import { Visitor } from "~/composables/types";
+import { ref, useNuxtApp, watch, computed, useI18n } from "#imports";
 import moment from "moment";
 
 interface VoteResult {
@@ -163,15 +162,13 @@ const text = (date: Date) =>
 async function fetch() {
   votes.value = await $surrealdb.connection
     .query("SELECT * FROM fn::vote_overview(type::thing('event', $event))", {
-      event: props.event.id.split(":")[1],
+      event: props.event.id.id,
     })
     .then((value: any) =>
-      value.map((vote: VoteResult) => {
-        // @ts-ignore
-        const parsed = Object.fromEntries(vote);
-        parsed.date = new Date(parsed.date);
+      value[0].map((vote: VoteResult) => {
+        vote.date = new Date(vote.date);
 
-        return parsed;
+        return vote;
       })
     );
 }

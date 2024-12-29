@@ -22,11 +22,3 @@ export interface PlannedEvent {
   dates: Date[];
   created_at: Date;
 }
-
-export interface Visitor {
-  id: string;
-  username: string;
-  visitable: Date[];
-  event?: PlannedEvent | string;
-  created_at: Date;
-}

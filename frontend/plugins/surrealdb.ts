@@ -16,11 +16,11 @@
  */
 
 import { defineNuxtPlugin, useLocalePath, useRouter } from "#imports";
-// @ts-ignore
-import { Surreal } from "surrealdb.wasm/http";
+import { Surreal } from "surrealdb";
+import { surrealdbWasmEngines } from "@surrealdb/wasm";
 import { Ref, ref } from "#imports";
 
-type Scope = "account" | "visitor";
+type Access = "account" | "visitor";
 
 /**
  *
@@ -28,15 +28,15 @@ type Scope = "account" | "visitor";
 export class SurrealdbConnection {
   public connection: Surreal;
   public loggedIn: Ref<boolean>;
-  public scope: Ref<Scope | undefined>;
+  public access: Ref<Access | undefined>;
 
   /**
    *
    */
   constructor() {
-    this.connection = new Surreal();
+    this.connection = new Surreal({ engines: surrealdbWasmEngines() });
     this.loggedIn = ref(false);
-    this.scope = ref(undefined);
+    this.access = ref(undefined);
   }
 
   /**
@@ -54,15 +54,18 @@ export class SurrealdbConnection {
    */
   async signup(username: string, password: string) {
     const token = await this.connection.signup({
-      username,
-      password,
+      variables: {
+        username,
+        password
+      },
       namespace: "production",
       database: "eventplanner",
-      scope: "account",
+      access: "account",
     });
     await this.connection.authenticate(token);
+    await this.connection.use({ namespace: "production", database: "eventplanner" })
 
-    this.scope.value = "account";
+    this.access.value = "account";
     this.loggedIn.value = true;
   }
 
@@ -73,15 +76,18 @@ export class SurrealdbConnection {
    */
   async login(username: string, password: string) {
     const token = await this.connection.signin({
-      username,
-      password,
+      variables: {
+        username,
+        password
+      },
       namespace: "production",
       database: "eventplanner",
-      scope: "account",
+      access: "account",
     });
     await this.connection.authenticate(token);
+    await this.connection.use({ namespace: "production", database: "eventplanner" })
 
-    this.scope.value = "account";
+    this.access.value = "account";
     this.loggedIn.value = true;
   }
 
@@ -91,13 +97,16 @@ export class SurrealdbConnection {
    */
   async visit(id: string) {
     const token = await this.connection.signin({
-      id,
+      variables: {
+        id
+      },
       namespace: "production",
       database: "eventplanner",
-      scope: "visitor",
+      access: "visitor",
     });
     await this.connection.authenticate(token);
-    this.scope.value = "visitor";
+    await this.connection.use({ namespace: "production", database: "eventplanner" })
+    this.access.value = "visitor";
     this.loggedIn.value = true;
   }
 

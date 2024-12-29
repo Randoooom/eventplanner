@@ -19,7 +19,7 @@ import { SurrealdbConnection } from "~/plugins/surrealdb";
 
 declare module "#app" {
   interface NuxtApp {
-    $hello: SurrealdbConnection;
+    $surrealdb: SurrealdbConnection;
   }
 }
 
@@ -27,6 +27,6 @@ declare module "vue" {
   import { SurrealdbConnection } from "~/plugins/surrealdb";
 
   interface ComponentCustomProperties {
-    $hello: SurrealdbConnection;
+    $surrealdb: SurrealdbConnection;
   }
 }

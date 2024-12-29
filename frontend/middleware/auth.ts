@@ -27,6 +27,6 @@ export default defineNuxtRouteMiddleware((to) => {
   const localePath = useLocalePath();
 
   // if the client is not authenticated redirect to /
-  if (!$surrealdb.loggedIn.value || $surrealdb.scope.value !== "account")
+  if (!$surrealdb.loggedIn.value || $surrealdb.access.value !== "account")
     return navigateTo(localePath("/"));
 });

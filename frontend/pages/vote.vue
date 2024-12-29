@@ -70,7 +70,6 @@ import {
 } from "#imports";
 import { Visitor } from "~/composables/types";
 import { notificationEmitter } from "~/stores/notifications";
-import moment from "moment";
 
 const { $surrealdb } = useNuxtApp();
 
@@ -95,8 +94,7 @@ onMounted(async () => {
     .query('SELECT * FROM type::thing("visitor", $id) FETCH event', {
       id: id,
     })
-    .then((value: any) => value.map(Object.fromEntries)[0]);
-  visitor.value.event = Object.fromEntries(visitor.value.event);
+    .then((value: any) => value[0][0]);
   // set the currently selected dates
   // @ts-ignore
   dates.value = visitor.value!.visitable;
@@ -106,7 +104,7 @@ async function vote() {
   try {
     await $surrealdb.connection.merge(visitor.value!.id, {
       visitable: dates.value.map((date: string) =>
-        moment.utc(date).toISOString()
+        new Date(date) 
       ),
     });
 
