@@ -38,7 +38,7 @@
     "surrealdb": "^1.1.0",
     "vite-plugin-top-level-await": "^1.4.4",
     "vite-plugin-wasm": "^3.4.1",
-    "vuetify": "=3.3.11",
+    "vuetify": "=3.7.6",
     "zxcvbn": "^4.4.2"
   }
 }

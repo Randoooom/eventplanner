@@ -60,8 +60,8 @@ importers:
         specifier: ^3.4.1
         version: 3.4.1(vite@6.0.6(@types/node@20.17.10)(jiti@2.4.2)(sass@1.83.0)(terser@5.37.0)(yaml@2.6.1))
       vuetify:
-        specifier: '=3.3.11'
-        version: 3.3.11(typescript@5.7.2)(vue-i18n@9.3.0-beta.24(vue@3.5.13(typescript@5.7.2)))(vue@3.5.13(typescript@5.7.2))
+        specifier: '=3.7.6'
+        version: 3.7.6(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))
       zxcvbn:
         specifier: ^4.4.2
         version: 4.4.2
@@ -3825,21 +3825,18 @@ packages:
       typescript:
         optional: true
 
-  vuetify@3.3.11:
-    resolution: {integrity: sha512-hlbSgxXCcEu4VelJMRHKhvLpaitLsruHvdvolbqbCS6Z64XoulUDw3CQ9ay6WGBL7uckmop0bUYidD2d8mN0UQ==}
+  vuetify@3.7.6:
+    resolution: {integrity: sha512-lol0Va5HtMIqZfjccSD5DLv5v31R/asJXzc6s7ULy51PHr1DjXxWylZejhq0kVpMGW64MiV1FmA/p8eYQfOWfQ==}
     engines: {node: ^12.20 || >=14.13}
     peerDependencies:
       typescript: '>=4.7'
-      vite-plugin-vuetify: ^1.0.0-alpha.12
-      vue: ^3.2.0
-      vue-i18n: ^9.0.0
-      webpack-plugin-vuetify: ^2.0.0-alpha.11
+      vite-plugin-vuetify: '>=1.0.0'
+      vue: ^3.3.0
+      webpack-plugin-vuetify: '>=2.0.0'
     peerDependenciesMeta:
       typescript:
         optional: true
       vite-plugin-vuetify:
-        optional: true
-      vue-i18n:
         optional: true
       webpack-plugin-vuetify:
         optional: true
@@ -7976,12 +7973,11 @@ snapshots:
     optionalDependencies:
       typescript: 5.7.2
 
-  vuetify@3.3.11(typescript@5.7.2)(vue-i18n@9.3.0-beta.24(vue@3.5.13(typescript@5.7.2)))(vue@3.5.13(typescript@5.7.2)):
+  vuetify@3.7.6(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2)):
     dependencies:
       vue: 3.5.13(typescript@5.7.2)
     optionalDependencies:
       typescript: 5.7.2
-      vue-i18n: 9.3.0-beta.24(vue@3.5.13(typescript@5.7.2))
 
   webidl-conversions@3.0.1: {}
 
