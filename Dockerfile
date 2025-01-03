@@ -26,7 +26,7 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
         cargo build --release; \
     fi
 
-FROM --platform=linux/amd64 node:18-alpine AS build-static
+FROM --platform=linux/amd64 node:22-alpine AS build-static
 
 # prepare pnpm
 RUN npm i -g pnpm
@@ -42,7 +42,7 @@ RUN pnpm i --frozen-lockfile
 COPY ./frontend/ ./
 RUN pnpm run generate
 
-FROM --platform=linux/amd64 node:18-alpine AS build-ssr
+FROM --platform=linux/amd64 node:22-alpine AS build-ssr
 
 # prepare pnpm
 RUN npm i -g pnpm
