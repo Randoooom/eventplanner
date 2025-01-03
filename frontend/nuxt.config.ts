@@ -15,68 +15,70 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import wasm from "vite-plugin-wasm";
-import topLevelAwait from "vite-plugin-top-level-await";
-
-const production = process.env.NODE_ENV === "production";
 const generate = process.env.BUILD === "static";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
- devtools: { enabled: false },
+  devtools: { enabled: false },
 
- app: {
-   head: {
-     title: "EP",
-     charset: "utf-8",
-     viewport: "width=device-width, initial-scale=1",
-     meta: [{ name: "format-detection", content: "telephone=no" }],
-     style: [],
-     script: [],
-   },
- },
+  app: {
+    head: {
+      title: "EP",
+      charset: "utf-8",
+      viewport: "width=device-width, initial-scale=1",
+      meta: [{ name: "format-detection", content: "telephone=no" }],
+      style: [],
+      script: [],
+    },
+  },
 
- i18n: {
-   locales: [
-     { code: "de", iso: "de-DE", file: "de.json" },
-     { code: "en", iso: "en-US", file: "en.json" },
-   ],
-   lazy: true,
-   langDir: "./locales",
-   defaultLocale: "en",
-   detectBrowserLanguage: {
-     cookieKey: "lang",
-     useCookie: true,
-     redirectOn: "root",
-     alwaysRedirect: true,
-   },
- },
+  i18n: {
+    locales: [
+      { code: "de", language: "de-DE", file: "de.json" },
+      { code: "en", language: "en-US", file: "en.json" },
+    ],
+    lazy: true,
+    defaultLocale: "en",
+    detectBrowserLanguage: {
+      cookieKey: "lang",
+      useCookie: true,
+      redirectOn: "root",
+      alwaysRedirect: true,
+    },
+  },
 
- css: [
-   "vuetify/styles",
-   "@mdi/font/css/materialdesignicons.min.css",
-   "@/assets/main.sass",
- ],
+  css: [
+    "vuetify/styles",
+    "@mdi/font/css/materialdesignicons.min.css",
+    "@/assets/main.sass",
+  ],
 
- build: {
-   transpile: ["vuetify", "lodash"],
- },
+  build: {
+    transpile: ["vuetify", "lodash"],
+  },
 
- modules: ["@nuxtjs/i18n", "@pinia/nuxt", "nuxt-lodash"],
+  modules: ["@nuxtjs/i18n", "@pinia/nuxt", "nuxt-lodash"],
 
- vite: {
-   plugins: production ? [wasm(), topLevelAwait()] : [],
-   optimizeDeps: {
-     exclude: production ? [] : ["@surrealdb/wasm"],
-   },
- },
+  vite: {
+    optimizeDeps: {
+      exclude: ["@surrealdb/wasm"],
+      esbuildOptions: {
+        target: "esnext",
+      },
+    },
+    esbuild: {
+      supported: {
+        "top-level-await": true
+      }
+    }
+  },
 
- runtimeConfig: {
-   public: {
-     surrealdbEndpoint: "NUXT_PUBLIC_SURREALDB_ENDPOINT",
-   },
- },
+  runtimeConfig: {
+    public: {
+      surrealdbEndpoint: "NUXT_PUBLIC_SURREALDB_ENDPOINT",
+    },
+  },
 
- ssr: !generate,
- compatibilityDate: "2024-12-29",
+  ssr: !generate,
+  compatibilityDate: "2025-01-03",
 });

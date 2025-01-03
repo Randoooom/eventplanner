@@ -48,7 +48,7 @@
           class="text-none font-weight-bold"
           size="large"
           nuxt
-          :to="localePath('/signup')"
+          :to="$localePath('/signup')"
         >
           {{ $t("page.home.start") }}
         </v-btn>
