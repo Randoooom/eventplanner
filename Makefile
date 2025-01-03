@@ -22,3 +22,6 @@ run: stop-surrealdb surrealdb
 
 dev: run 
 	cd frontend && pnpm run dev
+
+preview: run 
+	cd frontend && pnpm run build && pnpm run preview

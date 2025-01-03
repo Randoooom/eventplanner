@@ -62,7 +62,7 @@
       <v-btn
         @click="dialog = false"
         nuxt
-        :to="localePath('/signup')"
+        :to="$localePath('/signup')"
         variant="text"
         color="grey"
       >
@@ -74,7 +74,7 @@
   <v-btn
     class="ml-5"
     nuxt
-    :to="localePath('/dashboard')"
+    :to="$localePath('/dashboard')"
     variant="tonal"
     color="accent"
     v-if="
