@@ -27,7 +27,7 @@
     "@surrealdb/wasm": "^1.1.0",
     "@types/node": "^20.17.11",
     "@types/zxcvbn": "^4.4.5",
-    "@vuepic/vue-datepicker": "^5.4.0",
+    "@vuepic/vue-datepicker": "^10.0.0",
     "clipboardy": "^3.0.0",
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
