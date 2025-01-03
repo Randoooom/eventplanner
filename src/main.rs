@@ -130,9 +130,9 @@ async fn migrate(
     // take the last as response, which contains the last migrated version
     let last = connection
         .query(
-            "DEFINE TABLE migration SCHEMALESS;
-            DEFINE FIELD version     on TABLE migration TYPE string ASSERT $value IS NOT NULL;
-            DEFINE FIELD created_at  on TABLE migration TYPE datetime VALUE time::now();",
+            "DEFINE TABLE OVERWRITE migration SCHEMALESS;
+            DEFINE FIELD OVERWRITE version     on TABLE migration TYPE string ASSERT $value IS NOT NULL;
+            DEFINE FIELD OVERWRITE created_at  on TABLE migration TYPE datetime VALUE time::now();",
         )
         .query("SELECT version, created_at FROM migration ORDER BY created_at DESC LIMIT 1")
         .await?

@@ -15,28 +15,28 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-DEFINE ACCESS account ON DATABASE TYPE RECORD
+DEFINE ACCESS OVERWRITE account ON DATABASE TYPE RECORD
     SIGNUP (CREATE account SET username = $username, password = crypto::argon2::generate($password))
     SIGNIN (SELECT * FROM account WHERE username = $username AND crypto::argon2::compare(password, $password))
     DURATION FOR TOKEN 15m, FOR SESSION 12h;
 
-DEFINE ACCESS visitor ON DATABASE TYPE RECORD
+DEFINE ACCESS OVERWRITE visitor ON DATABASE TYPE RECORD
     SIGNUP (SELECT * FROM NULL)
     SIGNIN (SELECT * FROM visitor WHERE id = type::thing("visitor", $id))
     DURATION FOR TOKEN 15m, FOR SESSION 12h;
 
-DEFINE TABLE account SCHEMAFULL
+DEFINE TABLE OVERWRITE account SCHEMAFULL
     PERMISSIONS
         FOR select WHERE id = $auth.id
         FOR update NONE
         FOR delete WHERE id = $auth.id
         FOR create NONE;
-    DEFINE FIELD username   on TABLE account TYPE string;
-    DEFINE FIELD password   on TABLE account TYPE string;
-    DEFINE FIELD created_at on TABLE account TYPE datetime DEFAULT time::now();
+    DEFINE FIELD OVERWRITE username   on TABLE account TYPE string;
+    DEFINE FIELD OVERWRITE password   on TABLE account TYPE string;
+    DEFINE FIELD OVERWRITE created_at on TABLE account TYPE datetime DEFAULT time::now();
     DEFINE INDEX usernameIndex on TABLE account COLUMNS username UNIQUE;
 
-DEFINE TABLE event SCHEMAFULL
+DEFINE TABLE OVERWRITE event SCHEMAFULL
     PERMISSIONS
         FOR select WHERE
             (session::ac() = "account" AND organizer.id = $auth.id)
@@ -45,13 +45,13 @@ DEFINE TABLE event SCHEMAFULL
         FOR update WHERE organizer.id = $auth.id
         FOR delete WHERE organizer.id = $auth.id
         FOR create WHERE session::ac() = "account";
-    DEFINE FIELD title      on TABLE event TYPE string;
-    DEFINE FIELD organizer  on TABLE event TYPE record<account> DEFAULT $auth.id;
-    DEFINE FIELD dates      on TABLE event TYPE array;
-    DEFINE FIELD dates.*    ON TABLE event TYPE datetime;
-    DEFINE FIELD created_at on TABLE event TYPE datetime DEFAULT time::now();
+    DEFINE FIELD OVERWRITE title      on TABLE event TYPE string;
+    DEFINE FIELD OVERWRITE organizer  on TABLE event TYPE record<account> DEFAULT $auth.id;
+    DEFINE FIELD OVERWRITE dates      on TABLE event TYPE array;
+    DEFINE FIELD OVERWRITE dates.*    ON TABLE event TYPE datetime;
+    DEFINE FIELD OVERWRITE created_at on TABLE event TYPE datetime DEFAULT time::now();
 
-DEFINE TABLE visitor SCHEMAFULL
+DEFINE TABLE OVERWRITE visitor SCHEMAFULL
     PERMISSIONS
         FOR select WHERE
             event.organizer.id = $auth.id
@@ -60,14 +60,14 @@ DEFINE TABLE visitor SCHEMAFULL
         FOR delete WHERE event.organizer.id = $auth.id
         FOR create WHERE event.organizer.id = $auth.id
         FOR update WHERE id = $auth.id;
-    DEFINE FIELD username   on TABLE visitor TYPE string PERMISSIONS FOR update NONE;
-    DEFINE FIELD event      on TABLE visitor TYPE record<event> PERMISSIONS FOR update NONE;
-    DEFINE FIELD visitable  on TABLE visitor TYPE array         DEFAULT [] PERMISSIONS FOR update WHERE id = $auth.id;
-    DEFINE FIELD visitable.* on TABLE visitor TYPE datetime PERMISSIONS FOR update WHERE id = $auth.id;
-    DEFINE FIELD created_at on TABLE visitor TYPE datetime      DEFAULT time::now() PERMISSIONS FOR update NONE;
+    DEFINE FIELD OVERWRITE username   on TABLE visitor TYPE string PERMISSIONS FOR update NONE;
+    DEFINE FIELD OVERWRITE event      on TABLE visitor TYPE record<event> PERMISSIONS FOR update NONE;
+    DEFINE FIELD OVERWRITE visitable  on TABLE visitor TYPE array         DEFAULT [] PERMISSIONS FOR update WHERE id = $auth.id;
+    DEFINE FIELD OVERWRITE visitable.* on TABLE visitor TYPE datetime PERMISSIONS FOR update WHERE id = $auth.id;
+    DEFINE FIELD OVERWRITE created_at on TABLE visitor TYPE datetime      DEFAULT time::now() PERMISSIONS FOR update NONE;
     DEFINE INDEX usernameEventIndex ON TABLE visitor COLUMNS username, event.id UNIQUE;
 
-DEFINE FUNCTION fn::vote_overview($event: record<event>) {
+DEFINE FUNCTION OVERWRITE fn::vote_overview($event: record<event>) {
     LET $visitors = SELECT username, visitable FROM visitor WHERE event = $event and array::len(visitable) > 0;
     LET $dates = SELECT dates FROM $event;
 
