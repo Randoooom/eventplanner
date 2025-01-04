@@ -75,7 +75,7 @@ CMD ./eventplanner \
     && find /.output/public -type f -exec sed -i 's@NUXT_PUBLIC_SURREALDB_ENDPOINT@'"$NUXT_PUBLIC_SURREALDB_ENDPOINT"'@' {} + \
     && nginx -g "daemon off;"
 
-FROM node:18-buster-slim AS ssr
+FROM node:20-buster-slim AS ssr
 
 COPY --from=rust-build /target/release/eventplanner ./
 COPY --from=build-ssr /frontend/.output/ ./.output
