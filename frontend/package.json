@@ -28,7 +28,7 @@
     "@types/node": "^22.0.0",
     "@types/zxcvbn": "^4.4.5",
     "@vuepic/vue-datepicker": "^5.4.0",
-    "clipboardy": "^3.0.0",
+    "clipboardy": "^4.0.0",
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
